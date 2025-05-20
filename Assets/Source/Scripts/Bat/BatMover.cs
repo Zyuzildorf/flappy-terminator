@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
 public class BatMover : MonoBehaviour
 {
-    [SerializeField] private float _speed;
     [SerializeField] private float _flyForce;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _maxRotationZ;
@@ -12,6 +12,8 @@ public class BatMover : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
+
+    public event Action Swinging;
 
     private void Awake()
     {
@@ -26,13 +28,15 @@ public class BatMover : MonoBehaviour
 
     public void Move()
     {
-        _rigidbody2D.velocity = new Vector2(_speed, _flyForce);
+        _rigidbody2D.velocity = new Vector2(0, _flyForce);
         transform.rotation = _maxRotation;
+
+        Swinging?.Invoke();
     }
 
     public void Fall()
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _speed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
     }
 
     public void ResetPosition()

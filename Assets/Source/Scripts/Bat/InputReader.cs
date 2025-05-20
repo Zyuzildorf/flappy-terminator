@@ -13,11 +13,11 @@ public class InputReader : MonoBehaviour
 
     private void UpdateSpaceBarInput()
     {
-        IsSpacebarPressed = Input.GetKeyDown(KeyCode.Space);
+        IsSpacebarPressed = Input.GetKeyDown(KeyCode.F);
     }
 
     private void UpdateFKeyInput()
     {
-        IsFKeyPressed = Input.GetKeyUp(KeyCode.F);
+        IsFKeyPressed = Input.GetKeyUp(KeyCode.K);
     }
 }

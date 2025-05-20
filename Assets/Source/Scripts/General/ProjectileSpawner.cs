@@ -1,0 +1,54 @@
+using UnityEngine;
+
+public class ProjectileSpawner : ObjectPool<Projectile>
+{
+    [SerializeField] private Transform _firePoint;
+
+    private Vector2 _direction;
+
+    public void SpawnBullet()
+    {
+        Projectile bullet = GetObject();
+
+        bullet.PrefferToDestroyed += PutObject;
+
+        bullet.transform.position = _firePoint.position;        
+        bullet.gameObject.SetActive(true);
+        bullet.SetVelocity(GetDirection());
+
+        bullet.StartLifeTimeDecreasing();
+    }
+
+    private Vector2 GetDirection()
+    {
+        Vector2 leftRightDirection = Vector2.zero;
+        float distance = transform.position.x - _firePoint.position.x;
+
+        if (Mathf.Sign(distance) > 0)
+        {
+            leftRightDirection = Vector2.left;
+        }
+        else
+        {
+            leftRightDirection = Vector2.right;
+        }
+        return _direction = (transform.rotation * leftRightDirection).normalized;
+    }
+
+    protected override Projectile GetObject()
+    {
+        return base.GetObject();
+    }
+
+    protected override void PutObject(Projectile obj)
+    {
+        obj.PrefferToDestroyed -= PutObject;
+
+        base.PutObject(obj);
+    }
+
+    protected override void Reset()
+    {
+        base.Reset();
+    }
+}

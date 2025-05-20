@@ -1,22 +1,24 @@
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class StartScreen : Window
 {
+    [SerializeField] private Button _actionButton;
+
     public event Action PlayButtonClicked;
-
-    public override void Close()
+    
+    private void OnEnable()
     {
-        WindowGroup.alpha = 0f;
-        ActionButton.interactable = false;
+        _actionButton.onClick.AddListener(OnButtonClick);
     }
 
-    public override void Open()
+    private void OnDisable()
     {
-        WindowGroup.alpha = 1f;
-        ActionButton.interactable = true;
+        _actionButton.onClick.RemoveListener(OnButtonClick);
     }
 
-    protected override void OnButtonClick()
+    private void OnButtonClick()
     {
         PlayButtonClicked?.Invoke();
     }
