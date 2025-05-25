@@ -1,47 +1,49 @@
-using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Mover),typeof(Shooter))]
-public class EnemyType3 : Enemy
+[RequireComponent(typeof(MoverRighToLeft),typeof(Shooter))]
+public class EnemyType3 : Enemy, IShootable, IMovable
 {
-    private Mover _mover;
+    private MoverRighToLeft _mover;
     private Shooter _shooter;
+    private bool _canShoot;
 
+    public bool CanShoot
+    {
+        get => _canShoot;
+        set => _canShoot = value;
+    }
+    
     protected override void Awake()
     {
         base.Awake();
 
-        _mover = GetComponent<Mover>();
+        _mover = GetComponent<MoverRighToLeft>();
         _shooter = GetComponent<Shooter>();
     }
 
-    protected override void OnEnable()
+    private void Update()
     {
-        base.OnEnable();
+        Move();
+        Shoot();
     }
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
-    protected override void Move()
+    public void Move()
     {
         _mover.MoveRightToLeft();
     }
 
-    protected override void Shoot()
+    public void Shoot()
     {
         _shooter.StartShooting();
     }
 
-    protected override void ProccesProjectileCollision(Projectile projectile)
+    protected override void ProcessCollision(IInteractable interactable)
     {
-        base.ProccesProjectileCollision(projectile);
+        base.ProcessCollision(interactable);
+        
+        if (interactable is ShootActivationTrigger)
+        {
+            _canShoot = true;
+        }
     }
 }

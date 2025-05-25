@@ -23,7 +23,7 @@ public class BatMover : MonoBehaviour
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
 
-        ResetPosition();
+        Reset();
     }
 
     public void Move()
@@ -39,7 +39,7 @@ public class BatMover : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
     }
 
-    public void ResetPosition()
+    public void Reset()
     {
         transform.position = _startPosition;
         transform.rotation = Quaternion.identity;

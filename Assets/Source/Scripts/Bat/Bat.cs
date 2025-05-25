@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(InputReader), typeof(BatMover), typeof(Shooter))]
-[RequireComponent (typeof(BatScoreCounter),typeof(CollisionHandler), typeof(BatAnimator))]
+[RequireComponent (typeof(ScoreCounter),typeof(CollisionHandler), typeof(BatAnimator))]
 public class Bat : MonoBehaviour
 {
     private InputReader _inputReader;
     private BatMover _mover;
     private Shooter _attacker;
-    private BatScoreCounter _scoreCounter;
+    private ScoreCounter _scoreCounter;
     private CollisionHandler _collisionHandler;
     private BatAnimator _animator;
 
@@ -24,7 +24,7 @@ public class Bat : MonoBehaviour
         _inputReader = GetComponent<InputReader>();
         _mover = GetComponent<BatMover>();
         _attacker = GetComponent<Shooter>();
-        _scoreCounter = GetComponent<BatScoreCounter>();
+        _scoreCounter = GetComponent<ScoreCounter>();
         _collisionHandler = GetComponent<CollisionHandler>();
         _animator = GetComponent<BatAnimator>();
     }
@@ -32,7 +32,6 @@ public class Bat : MonoBehaviour
     private void OnEnable()
     {
         _collisionHandler.CollisionDetected += ProcessCollision;
-        _collisionHandler.ProjectileDetected += ProcessProjectileCollision;
         _attacker.Shooting += _animator.Shoot;
         _mover.Swinging += _animator.Swing;
     }
@@ -40,19 +39,18 @@ public class Bat : MonoBehaviour
     private void OnDisable()
     {
         _collisionHandler.CollisionDetected -= ProcessCollision;
-        _collisionHandler.ProjectileDetected -= ProcessProjectileCollision;
         _attacker.Shooting -= _animator.Shoot;
         _mover.Swinging -= _animator.Swing;
     }
 
     private void Update()
     {
-        if(_inputReader.IsSpacebarPressed)
+        if(_inputReader.IsKeyFPressed)
         {
             _mover.Move();
         }
 
-        if(_inputReader.IsFKeyPressed)
+        if(_inputReader.IsKeyKPressed)
         {
             _attacker.Shoot();
         }
@@ -62,33 +60,26 @@ public class Bat : MonoBehaviour
 
     private void ProcessCollision(IInteractable interactable)
     {
-        if (interactable is Obstacle)
+        if (interactable is Obstacle || interactable is Enemy)
         {
-            _animator.Die();
-            GameOver?.Invoke();
-        }        
-
-        if(interactable is Enemy)
-        {
-            _animator.Die();
-            GameOver?.Invoke();
+            Die();
         }
-    }
-
-    private void ProcessProjectileCollision(Projectile projectile)
-    {
-        if (projectile.IsEnemy)
+        else if (interactable is Projectile projectile && projectile.IsEnemy)
         {
             projectile.CallEvent();
-
-            _animator.Die();
-            GameOver?.Invoke();
+            Die();
         }
     }
-
+    
+    private void Die()
+    {
+        _animator.Die();
+        GameOver?.Invoke();
+    }
+    
     public void Reset()
     {
-        _mover.ResetPosition();
+        _mover.Reset();
         _scoreCounter.ResetScore();
         _animator.Revive();
         _animator.Stand();

@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    public bool IsSpacebarPressed { get; private set; }
-    public bool IsFKeyPressed { get; private set; }
+    public bool IsKeyFPressed { get; private set; }
+    public bool IsKeyKPressed { get; private set; }
 
     private void Update()
     {
-        UpdateSpaceBarInput();
-        UpdateFKeyInput();
+        UpdateKeyFInput();
+        UpdateKeyKInput();
     }
 
-    private void UpdateSpaceBarInput()
+    private void UpdateKeyFInput()
     {
-        IsSpacebarPressed = Input.GetKeyDown(KeyCode.F);
+        IsKeyFPressed = Input.GetKeyDown(KeyCode.F);
     }
 
-    private void UpdateFKeyInput()
+    private void UpdateKeyKInput()
     {
-        IsFKeyPressed = Input.GetKeyUp(KeyCode.K);
+        IsKeyKPressed = Input.GetKeyUp(KeyCode.K);
     }
 }

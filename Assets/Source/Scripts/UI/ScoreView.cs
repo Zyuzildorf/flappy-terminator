@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ScoreView : Window
 {
-    [SerializeField] private BatScoreCounter _scoreCounter;
+    [SerializeField] private ScoreCounter _scoreCounter;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _bestScoreText;
 

@@ -1,46 +1,26 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Mover), typeof(SinWaveMover))]
-public class EnemyType2 : Enemy
+[RequireComponent(typeof(MoverRighToLeft), typeof(SinWaveMover))]
+public class EnemyType2 : Enemy, IMovable
 {
-    private Mover _mover;
+    private MoverRighToLeft _mover;
     private SinWaveMover _sinMover;
 
     protected override void Awake()
     {
         base.Awake();
-        _mover = GetComponent<Mover>();
+        _mover = GetComponent<MoverRighToLeft>();
         _sinMover = GetComponent<SinWaveMover>();
     }
 
-    protected override void OnEnable()
+    private void Update()
     {
-        base.OnEnable();
+        Move();
     }
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
-    protected override void Move()
+    public void Move()
     {
         _mover.MoveRightToLeft();
         _sinMover.MoveSinWave();
-    }
-
-    protected override void Shoot()
-    {
-        
-    }
-
-    protected override void ProccesProjectileCollision(Projectile projectile)
-    {
-        base.ProccesProjectileCollision(projectile);
     }
 }

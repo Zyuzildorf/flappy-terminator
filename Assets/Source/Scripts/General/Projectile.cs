@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour, IInteractable
 {
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private float _speed;
