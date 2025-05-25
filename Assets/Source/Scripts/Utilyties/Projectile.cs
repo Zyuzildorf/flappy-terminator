@@ -47,8 +47,13 @@ public class Projectile : MonoBehaviour, IInteractable
             yield return null;
         }
 
+        Die();
+    }
+
+    private void Die()
+    {
         PrefferToDestroyed?.Invoke(this);
         _currentLifeTime = _lifeTime;
         _rigidbody.velocity = Vector2.zero;
-    }    
+    }
 }

@@ -6,36 +6,35 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField] private Transform _container;
     [SerializeField] private T _prefab;
 
-    protected Queue<T> _pool;
+    protected Queue<T> Pool;
 
-    public IEnumerable<T> PooledObjects => _pool;
+    public IEnumerable<T> PooledObjects => Pool;
 
     private void Awake()
     {
-        _pool = new Queue<T>();
+        Pool = new Queue<T>();
     }
 
-    protected virtual T GetObject()
+    public virtual T GetObject()
     {
-        if (_pool.Count == 0)
+        if (Pool.Count == 0)
         {
-            var obj = Instantiate(_prefab);
-            obj.transform.parent = _container;
+            var obj = Instantiate(_prefab, _container, true);
 
             return obj;
         }
 
-        return _pool.Dequeue();
+        return Pool.Dequeue();
     }
 
     protected virtual void PutObject(T obj)
     {
-        _pool.Enqueue(obj);
+        Pool.Enqueue(obj);
         obj.gameObject.SetActive(false);
     }
 
     protected virtual void Reset()
     {
-        _pool.Clear();
+        Pool.Clear();
     }
 }

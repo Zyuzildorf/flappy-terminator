@@ -35,20 +35,10 @@ public class ProjectileSpawner : ObjectPool<Projectile>
         return _direction = (transform.rotation * leftRightDirection).normalized;
     }
 
-    protected override Projectile GetObject()
-    {
-        return base.GetObject();
-    }
-
     protected override void PutObject(Projectile obj)
     {
         obj.PrefferToDestroyed -= PutObject;
 
         base.PutObject(obj);
-    }
-
-    protected override void Reset()
-    {
-        base.Reset();
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public class HUD : MonoBehaviour
 {
     [SerializeField] private Bat _bat;
     [SerializeField] private Camera _camera;

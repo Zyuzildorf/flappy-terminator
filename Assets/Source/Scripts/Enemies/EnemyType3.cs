@@ -19,12 +19,16 @@ public class EnemyType3 : Enemy, IShootable, IMovable
 
         _mover = GetComponent<MoverRighToLeft>();
         _shooter = GetComponent<Shooter>();
+        _canShoot = false;
     }
 
     private void Update()
     {
         Move();
-        Shoot();
+        if (_canShoot)
+        {
+            Shoot();
+        }
     }
 
     public void Move()
