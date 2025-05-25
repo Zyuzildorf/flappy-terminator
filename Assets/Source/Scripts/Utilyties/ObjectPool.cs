@@ -15,7 +15,7 @@ public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
         Pool = new Queue<T>();
     }
 
-    public virtual T GetObject()
+    protected virtual T GetObject()
     {
         if (Pool.Count == 0)
         {

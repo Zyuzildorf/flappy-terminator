@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     private bool _isActive = false;
 
     public event Action<int> OnScoreValueAdd;
-    protected event Action<Enemy> PrefferedToDestroy;
+    public event Action<Enemy> PrefferedToDestroy;
 
     protected virtual void Awake()
     {
@@ -41,13 +41,17 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
         {
             projectile.CallEvent();
 
-            Die();
-            Destroy(gameObject);                // Zaglushka
+            Die();              
         }
 
         if (interactable is ActivationTrigger)
         {
             _isActive = true;
+        }
+
+        if (interactable is OutOfScreenTrigger)
+        {
+            Die();
         }
     }
 

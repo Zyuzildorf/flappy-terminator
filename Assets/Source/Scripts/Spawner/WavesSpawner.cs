@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Spawner : MonoBehaviour
+public class WavesSpawner : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private List<WaveObjectPool> _waves;
@@ -17,11 +18,21 @@ public class Spawner : MonoBehaviour
         StartSpawning();
     }
 
+    public void Reset()
+    {
+        
+    }
+
     public void StartSpawning()
     {
         StartCoroutine(Spawning());
     }
 
+    public void StopSpawning()
+    {
+        StopCoroutine(Spawning());
+    }
+    
     private IEnumerator Spawning()
     {
         while (_isActive)
@@ -34,6 +45,6 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         WaveObjectPool pool = _waves[Random.Range(0, _waves.Count)];
-        pool.GetObject().gameObject.transform.position = _spawnPoint.position;
+        pool.SpawnWave(_spawnPoint);
     }
 }

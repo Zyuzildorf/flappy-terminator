@@ -195,5 +195,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2454325981236934551}
   _speed: 20
-  _lifeTime: 5
+  _lifeTime: 2
   _isEnemy: 1
