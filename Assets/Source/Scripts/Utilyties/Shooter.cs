@@ -42,4 +42,15 @@ public class Shooter : MonoBehaviour
         yield return _waitForSeconds;
         _isShootDelayOver = true;
     }
+
+    private void OnEnable()
+    {
+        _isShootDelayOver = true;
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(WaitForNextAttack());
+        _isShootDelayOver = false;
+    }
 }

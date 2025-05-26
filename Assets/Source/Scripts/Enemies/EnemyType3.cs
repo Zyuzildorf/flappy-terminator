@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(MoverRighToLeft),typeof(Shooter))]
@@ -29,6 +30,12 @@ public class EnemyType3 : Enemy, IShootable, IMovable
         {
             Shoot();
         }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _canShoot = false;
     }
 
     public void Move()

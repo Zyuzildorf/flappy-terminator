@@ -24,6 +24,11 @@ public class Projectile : MonoBehaviour, IInteractable
         GetComponent<Collider2D>().isTrigger = true;
     }
 
+    private void OnDisable()
+    {
+        PrefferToDestroyed?.Invoke(this);
+    }
+
     public void SetVelocity(Vector2 direction)
     {
         _rigidbody.velocity = direction * _speed;

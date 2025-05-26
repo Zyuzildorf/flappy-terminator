@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CollisionHandler))]
 public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
 {
-    [SerializeField] private int _addScore;
+    [SerializeField] private int _scoreValue;
 
     private CollisionHandler _collisionHandler;
 
@@ -12,12 +12,12 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     private bool _isActive = false;
 
     public event Action<int> OnScoreValueAdd;
-    public event Action<Enemy> PrefferedToDestroy;
+    public event Action<Enemy> Destroing;
 
     protected virtual void Awake()
     {
         _collisionHandler = GetComponent<CollisionHandler>();
-        _startPosition = transform.position;
+        _startPosition = transform.localPosition;
     }
 
     protected virtual void OnEnable()
@@ -32,7 +32,7 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     
     public virtual void Reset()
     {
-        transform.position = _startPosition;
+        transform.localPosition = _startPosition;
     }
     
     protected virtual void ProcessCollision(IInteractable interactable)
@@ -57,7 +57,8 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
 
     private void Die()
     {
-        PrefferedToDestroy?.Invoke(this);
-        OnScoreValueAdd?.Invoke(_addScore);
+        OnScoreValueAdd?.Invoke(_scoreValue);
+        Destroing?.Invoke(this);
+        Destroy(gameObject);
     }
 }

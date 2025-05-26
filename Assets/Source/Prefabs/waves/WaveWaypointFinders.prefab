@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7208097310009015496}
-  - component: {fileID: 1558266475377986404}
+  - component: {fileID: 4233233242584441884}
   m_Layer: 0
   m_Name: WaveWaypointFinders
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Transform:
   - {fileID: 772577372878853484}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1558266475377986404
+--- !u!114 &4233233242584441884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6723795917911575497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c22e46b2cf4ea6844a8a72bd00c9b8, type: 3}
+  m_Script: {fileID: 11500000, guid: e25b81b87ac14aa39bafe633707e504d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8180407418586667574

@@ -32,6 +32,12 @@ public class EnemyType1 : Enemy, IShootable, IMovable
         }
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _canShoot = false;
+    }
+
     public void Shoot()
     {
         _shooter.StartShooting();

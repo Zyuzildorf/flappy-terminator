@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
-    [SerializeField] private Bat _bat;
-    [SerializeField] private Camera _camera;
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndGameScreen _endGameScreen;
     [SerializeField] private ScoreView _scoreView;
@@ -12,14 +10,13 @@ public class HUD : MonoBehaviour
     {
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endGameScreen.RestartButtonClicked += OnRestartButtonClick;
-        _bat.GameOver += OnGameOver;
+        
     }
 
     private void OnDisable()
     {
         _startScreen.PlayButtonClicked -= OnPlayButtonClick;
         _endGameScreen.RestartButtonClicked -= OnRestartButtonClick;
-        _bat.GameOver -= OnGameOver;
     }
 
     private void Awake()
