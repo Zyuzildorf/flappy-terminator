@@ -6,8 +6,8 @@ public class ScoreCounter : MonoBehaviour
 {
     private List<IScorable> _scorables = new List<IScorable>();
 
-    public int ScoreValue { get; private set; }
-    public int BestScoreValue { get; private set; }
+    public float ScoreValue { get; private set; }
+    public float BestScoreValue { get; private set; }
 
     public event Action ScoreValueChanged;
 

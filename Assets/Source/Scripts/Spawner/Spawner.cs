@@ -12,7 +12,8 @@ public class Spawner : MonoBehaviour
 
     private List<WaveObject> _spawnedWaveObjects;
     private WaitForSeconds _waitForSeconds;
-    private bool _isActive;
+    private Coroutine _currentCoroutine;
+    private bool _isActive = true;
 
     private void Awake()
     {
@@ -20,25 +21,23 @@ public class Spawner : MonoBehaviour
         _spawnedWaveObjects = new List<WaveObject>();
     }
 
-    public void StartSpawning()
-    {
-        _isActive = true;
-        StartCoroutine(Spawning());
-    }
-
     public void Reset()
     {
-        _isActive = false;
-        StopCoroutine(Spawning());
-
-        foreach (WaveObject waveObject in _spawnedWaveObjects)
+        if(_currentCoroutine != null)
         {
-            Destroy(waveObject);
+            StopCoroutine(_currentCoroutine);
         }
         
-        _spawnedWaveObjects.Clear();
-    }
+        foreach (WaveObject waveObject in _spawnedWaveObjects)
+        {
+            Destroy(waveObject.gameObject);
+        }
 
+        _spawnedWaveObjects.Clear();
+
+        _currentCoroutine = StartCoroutine(Spawning());
+    }
+    
     private IEnumerator Spawning()
     {
         while (_isActive)
@@ -50,9 +49,16 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        WaveObject wave = Instantiate(_waves[Random.Range(0, _waves.Count)], _container, true);
-        wave.transform.position = _spawnPoint.position;
+        _spawnedWaveObjects.Add(Instantiate(_waves[Random.Range(0, _waves.Count)], _container, true));
+        WaveObject waveObject = _spawnedWaveObjects[_spawnedWaveObjects.Count - 1];
+        waveObject.transform.position = _spawnPoint.position;
+        waveObject.WaveDestroying += OnWaveObjectDestroy;
+    }
+
+    private void OnWaveObjectDestroy(WaveObject waveObject)
+    {
+        waveObject.WaveDestroying -= OnWaveObjectDestroy;
         
-        _spawnedWaveObjects.Add(wave);
+        _spawnedWaveObjects.Remove(waveObject);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class WaveObject : MonoBehaviour
 {
     private List<Enemy> _enemies;
 
+    public event Action<WaveObject> WaveDestroying;
+    
     private void Awake()
     {
         InitEnemiesArray();
@@ -27,6 +30,7 @@ public class WaveObject : MonoBehaviour
         
         if (_enemies.Count <= 0)
         {
+            WaveDestroying?.Invoke(this);
             Destroy(gameObject);
         }
     }

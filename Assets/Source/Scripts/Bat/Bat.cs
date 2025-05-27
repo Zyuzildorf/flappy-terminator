@@ -1,17 +1,19 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(InputReader), typeof(BatMover), typeof(Shooter))]
-[RequireComponent (typeof(ScoreCounter),typeof(CollisionHandler), typeof(BatAnimator))]
+[RequireComponent(typeof(ScoreCounter), typeof(CollisionHandler), typeof(BatAnimator))]
+[RequireComponent(typeof(BatMover), typeof(Shooter))]
 public class Bat : MonoBehaviour
 {
-    private InputReader _inputReader;
+    [SerializeField] private InputReader _inputReader;
+
     private BatMover _mover;
     private Shooter _attacker;
     private ScoreCounter _scoreCounter;
     private CollisionHandler _collisionHandler;
     private BatAnimator _animator;
-
+    private bool _isActive;
+    
     public event Action GameOver;
 
     private void OnValidate()
@@ -21,7 +23,6 @@ public class Bat : MonoBehaviour
 
     private void Awake()
     {
-        _inputReader = GetComponent<InputReader>();
         _mover = GetComponent<BatMover>();
         _attacker = GetComponent<Shooter>();
         _scoreCounter = GetComponent<ScoreCounter>();
@@ -45,17 +46,29 @@ public class Bat : MonoBehaviour
 
     private void Update()
     {
-        if(_inputReader.IsKeyFPressed)
+        if (_isActive)
         {
-            _mover.Move();
-        }
+            if (_inputReader.IsKeyFPressed)
+            {
+                _mover.Move();
+            }
 
-        if(_inputReader.IsKeyKPressed)
-        {
-            _attacker.Shoot();
-        }
+            if (_inputReader.IsKeyKPressed)
+            {
+                _attacker.Shoot();
+            }
 
-        _mover.Fall();
+            _mover.Fall();
+        }
+    }
+
+    public void Reset()
+    {
+        _mover.Reset();
+        _scoreCounter.ResetScore();
+        _animator.Revive();
+        _animator.Stand();
+        _isActive = true;
     }
 
     private void ProcessCollision(IInteractable interactable)
@@ -70,18 +83,11 @@ public class Bat : MonoBehaviour
             Die();
         }
     }
-    
+
     private void Die()
     {
+        _isActive = false;
         _animator.Die();
         GameOver?.Invoke();
-    }
-    
-    public void Reset()
-    {
-        _mover.Reset();
-        _scoreCounter.ResetScore();
-        _animator.Revive();
-        _animator.Stand();
     }
 }

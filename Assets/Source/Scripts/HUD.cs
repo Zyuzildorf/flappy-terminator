@@ -1,22 +1,25 @@
+using System;
 using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
+    [SerializeField] private GameLogic _gameLogic;
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndGameScreen _endGameScreen;
     [SerializeField] private ScoreView _scoreView;
-
+   
     private void OnEnable()
     {
-        _startScreen.PlayButtonClicked += OnPlayButtonClick;
-        _endGameScreen.RestartButtonClicked += OnRestartButtonClick;
-        
+        _gameLogic.PrefferToStart += OnGameStart;
+        _gameLogic.PrefferToRestart += OnGameRestart;
+        _gameLogic.GameOver += ShowGameOverScreen;
     }
 
     private void OnDisable()
     {
-        _startScreen.PlayButtonClicked -= OnPlayButtonClick;
-        _endGameScreen.RestartButtonClicked -= OnRestartButtonClick;
+        _gameLogic.PrefferToStart -= OnGameStart;
+        _gameLogic.PrefferToRestart -= OnGameRestart;
+        _gameLogic.GameOver -= ShowGameOverScreen;
     }
 
     private void Awake()
@@ -28,14 +31,20 @@ public class HUD : MonoBehaviour
         _startScreen.Open();
     }
 
-    private void Start()
+    private void OnGameRestart()
     {
-        Time.timeScale = 0;
+        _endGameScreen.Close();
+        ShowCurrentScore();
+    }
+    
+    private void OnGameStart()
+    {
+        _startScreen.Close();
+        ShowCurrentScore();
     }
 
-    private void OnGameOver()
+    private void ShowGameOverScreen()
     {
-        Time.timeScale = 0;
         _scoreView.HideCurrentScore();
         _scoreView.Reset();
 
@@ -43,21 +52,8 @@ public class HUD : MonoBehaviour
         _scoreView.ShowBestScore();
     }
 
-    private void OnRestartButtonClick()
+    private void ShowCurrentScore()
     {
-        _endGameScreen.Close();
-        StartGame();
-    }
-    private void OnPlayButtonClick()
-    {
-        _startScreen.Close();
-        StartGame();
-    }
-
-    private void StartGame()
-    {
-        Time.timeScale = 1;
-        _bat.Reset();
         _scoreView.HideBestScore();
         _scoreView.ShowCurrentScore();
     }

@@ -58,5 +58,4 @@ public class ScoreView : Window
     {
         _bestScoreText.text = new string("Best score: " + _scoreCounter.BestScoreValue);
     }
-
 }
