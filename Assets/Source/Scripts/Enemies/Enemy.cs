@@ -11,7 +11,7 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     private Vector2 _startPosition;
     private bool _isActive = false;
 
-    public event Action<int> OnScoreValueAdd;
+    public event Action<int> GivingScore;
     public event Action<Enemy> Destroing;
 
     protected virtual void Awake()
@@ -29,19 +29,20 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     {
         _collisionHandler.CollisionDetected -= ProcessCollision;
     }
-    
+
     public virtual void Reset()
     {
         transform.localPosition = _startPosition;
     }
-    
+
     protected virtual void ProcessCollision(IInteractable interactable)
     {
         if (interactable is Projectile projectile && projectile.IsEnemy == false && _isActive)
         {
             projectile.CallEvent();
+            GivingScore?.Invoke(_scoreValue);
 
-            Die();              
+            Die();
         }
 
         if (interactable is ActivationTrigger)
@@ -57,7 +58,6 @@ public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
 
     private void Die()
     {
-        OnScoreValueAdd?.Invoke(_scoreValue);
         Destroing?.Invoke(this);
         Destroy(gameObject);
     }

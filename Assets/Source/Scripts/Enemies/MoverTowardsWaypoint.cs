@@ -1,10 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MoverTowardsWaypoint : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private Transform _wayPoint;
+
+    private bool _isOnPosition;
+
+    public event Action ReachedPosition;
     
+    private void Awake()
+    {
+        _isOnPosition = false;
+    }
+
     public void MoveTowardsWaypoint()
     {
         Vector2 position = transform.position;
@@ -13,5 +23,20 @@ public class MoverTowardsWaypoint : MonoBehaviour
             _speed * Time.deltaTime);
 
         transform.position = position;
+
+        if (CheckIsOnPosition())
+        {
+            ReachedPosition?.Invoke();
+        }
+    }
+
+    private bool CheckIsOnPosition()
+    {
+        if (Mathf.Abs(transform.position.x - _wayPoint.position.x) < 0.01)
+        {
+            return _isOnPosition = true;
+        }
+
+        return _isOnPosition;
     }
 }

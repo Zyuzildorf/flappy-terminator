@@ -6,10 +6,11 @@ using UnityEngine;
 public class Shooter : MonoBehaviour
 {
     [SerializeField] private float _attackDelay = 2f;
+    [SerializeField] private AudioSource _shootSound;
 
     private ProjectileSpawner _bulletSpawner;
     private WaitForSeconds _waitForSeconds;
-    private bool _isShootDelayOver;
+    private bool _isShootDelayOver; 
 
     public event Action Shooting;
 
@@ -31,6 +32,7 @@ public class Shooter : MonoBehaviour
             return;
 
         _bulletSpawner.SpawnBullet();
+        _shootSound.Play();
         StartCoroutine(WaitForNextAttack());
 
         Shooting?.Invoke();

@@ -1,15 +1,14 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(ScoreCounter), typeof(CollisionHandler), typeof(BatAnimator))]
-[RequireComponent(typeof(BatMover), typeof(Shooter))]
+[RequireComponent(typeof(Shooter), typeof(CollisionHandler), typeof(BatAnimator))]
+[RequireComponent(typeof(BatMover))]
 public class Bat : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
 
     private BatMover _mover;
     private Shooter _attacker;
-    private ScoreCounter _scoreCounter;
     private CollisionHandler _collisionHandler;
     private BatAnimator _animator;
     private bool _isActive;
@@ -25,7 +24,6 @@ public class Bat : MonoBehaviour
     {
         _mover = GetComponent<BatMover>();
         _attacker = GetComponent<Shooter>();
-        _scoreCounter = GetComponent<ScoreCounter>();
         _collisionHandler = GetComponent<CollisionHandler>();
         _animator = GetComponent<BatAnimator>();
     }
@@ -65,7 +63,6 @@ public class Bat : MonoBehaviour
     public void Reset()
     {
         _mover.Reset();
-        _scoreCounter.ResetScore();
         _animator.Revive();
         _animator.Stand();
         _isActive = true;

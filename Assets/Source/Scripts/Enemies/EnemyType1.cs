@@ -1,11 +1,16 @@
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(MoverTowardsWaypoint), typeof(Shooter))]
+[RequireComponent(typeof(MoverTowardsWaypoint), typeof(MoverRighToLeft), typeof(Shooter))]
 public class EnemyType1 : Enemy, IShootable, IMovable
 {
-    private MoverTowardsWaypoint _mover;
+    [SerializeField] private float _delayBeforeMove;
+
+    private MoverTowardsWaypoint _moverTowardsWaypoint;
+    private MoverRighToLeft _moverRighToLeft;
     private Shooter _shooter;
     private bool _canShoot;
+    private bool _isDelayOver;
 
     public bool CanShoot
     {
@@ -17,9 +22,11 @@ public class EnemyType1 : Enemy, IShootable, IMovable
     {
         base.Awake();
 
-        _mover = GetComponent<MoverTowardsWaypoint>();
+        _moverTowardsWaypoint = GetComponent<MoverTowardsWaypoint>();
+        _moverRighToLeft = GetComponent<MoverRighToLeft>();
         _shooter = GetComponent<Shooter>();
         _canShoot = false;
+        _isDelayOver = false;
     }
 
     private void Update()
@@ -30,6 +37,12 @@ public class EnemyType1 : Enemy, IShootable, IMovable
         {
             Shoot();
         }
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _moverTowardsWaypoint.ReachedPosition += StartDelay;
     }
 
     protected override void OnDisable()
@@ -45,7 +58,14 @@ public class EnemyType1 : Enemy, IShootable, IMovable
 
     public void Move()
     {
-        _mover.MoveTowardsWaypoint();
+        if (_isDelayOver == false)
+        {
+            _moverTowardsWaypoint.MoveTowardsWaypoint();
+        }
+        else
+        {
+            _moverRighToLeft.MoveRightToLeft();
+        }
     }
 
     protected override void ProcessCollision(IInteractable interactable)
@@ -56,5 +76,16 @@ public class EnemyType1 : Enemy, IShootable, IMovable
         {
             _canShoot = true;
         }
+    }
+
+    private void StartDelay()
+    {
+        StartCoroutine(DelayBeforeMove());
+    }
+    
+    private IEnumerator DelayBeforeMove()
+    {
+        yield return new WaitForSeconds(_delayBeforeMove);
+        _isDelayOver = true;
     }
 }

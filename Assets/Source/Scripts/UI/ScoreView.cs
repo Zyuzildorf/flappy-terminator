@@ -44,14 +44,9 @@ public class ScoreView : Window
         _bestScoreText.gameObject.SetActive(false);
     }
 
-    public void Reset()
-    {
-        _scoreCounter.ResetScore();
-    }
-
     private void UpdateScoreText()
     {
-        _scoreText.text = _scoreCounter.ScoreValue.ToString();
+        _scoreText.text = new string("Score: " + _scoreCounter.ScoreValue.ToString());
     }
 
     private void UpdateBestScoreText()
