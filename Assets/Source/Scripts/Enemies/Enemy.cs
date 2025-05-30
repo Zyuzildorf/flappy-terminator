@@ -1,64 +1,65 @@
 ﻿using System;
+using Source.Scripts.Interfaces;
+using Source.Scripts.Spawners;
+using Source.Scripts.Triggers;
+using Source.Scripts.Utilities;
 using UnityEngine;
 
-[RequireComponent(typeof(CollisionHandler))]
-public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
+namespace Source.Scripts.Enemies
 {
-    [SerializeField] private int _scoreValue;
-
-    private CollisionHandler _collisionHandler;
-
-    private Vector2 _startPosition;
-    private bool _isActive = false;
-
-    public event Action<int> GivingScore;
-    public event Action<Enemy> Destroing;
-
-    protected virtual void Awake()
+    [RequireComponent(typeof(CollisionHandler))]
+    public abstract class Enemy : MonoBehaviour, IInteractable, IScorable
     {
-        _collisionHandler = GetComponent<CollisionHandler>();
-        _startPosition = transform.localPosition;
-    }
+        [SerializeField] private int _scoreValue;
 
-    protected virtual void OnEnable()
-    {
-        _collisionHandler.CollisionDetected += ProcessCollision;
-    }
+        private CollisionHandler _collisionHandler;
 
-    protected virtual void OnDisable()
-    {
-        _collisionHandler.CollisionDetected -= ProcessCollision;
-    }
+        private bool _isActive;
 
-    public virtual void Reset()
-    {
-        transform.localPosition = _startPosition;
-    }
+        public event Action<int> GivingScore;
+        public event Action<Enemy> Destroying;
 
-    protected virtual void ProcessCollision(IInteractable interactable)
-    {
-        if (interactable is Projectile projectile && projectile.IsEnemy == false && _isActive)
+        protected virtual void Awake()
         {
-            projectile.CallEvent();
-            GivingScore?.Invoke(_scoreValue);
-
-            Die();
+            _collisionHandler = GetComponent<CollisionHandler>();
+            _isActive = false;
         }
 
-        if (interactable is ActivationTrigger)
+        protected virtual void OnEnable()
         {
-            _isActive = true;
+            _collisionHandler.CollisionDetected += ProcessCollision;
         }
 
-        if (interactable is OutOfScreenTrigger)
+        protected virtual void OnDisable()
         {
-            Die();
+            _collisionHandler.CollisionDetected -= ProcessCollision;
         }
-    }
 
-    private void Die()
-    {
-        Destroing?.Invoke(this);
-        Destroy(gameObject);
+        protected virtual void ProcessCollision(IInteractable interactable)
+        {
+            if (interactable is Projectile projectile && projectile.IsEnemy == false && _isActive)
+            {
+                projectile.CallEvent();
+                GivingScore?.Invoke(_scoreValue);
+
+                Die();
+            }
+
+            if (interactable is ActivationTrigger)
+            {
+                _isActive = true;
+            }
+
+            if (interactable is OutOfScreenTrigger)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Destroying?.Invoke(this);
+            Destroy(gameObject);
+        }
     }
 }

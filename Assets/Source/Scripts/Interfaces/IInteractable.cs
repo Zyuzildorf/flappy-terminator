@@ -1,3 +1,6 @@
-public interface IInteractable 
+namespace Source.Scripts.Interfaces
 {
+    public interface IInteractable 
+    {
+    }
 }

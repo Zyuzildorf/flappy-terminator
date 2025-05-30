@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6133576079874436421}
   - component: {fileID: 3042796251170960449}
   m_Layer: 0
-  m_Name: EnemyType2
+  m_Name: EnemyCrucifix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

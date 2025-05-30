@@ -1,34 +1,38 @@
+using Source.Scripts.Utilities;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class BatAnimator : EntityAnimator
+namespace Source.Scripts.Bat
 {
-    public void Shoot()
+    [RequireComponent(typeof(Animator))]
+    public class BatAnimator : EntityAnimator
     {
-        TriggerAnimator(BatAnimatorData.Params.Shooting);
-    }
-    public void Swing()
-    {
-        TriggerAnimator(BatAnimatorData.Params.Swinging);
-    }
+        public void Shoot()
+        {
+            TriggerAnimator(BatAnimatorData.Params.Shooting);
+        }
+        public void Swing()
+        {
+            TriggerAnimator(BatAnimatorData.Params.Swinging);
+        }
 
-    public void Die()
-    {
-        SetBoolAnimator(BatAnimatorData.Params.IsDie, true);
-    }
+        public void Die()
+        {
+            SetBoolAnimator(BatAnimatorData.Params.IsDie, true);
+        }
 
-    public void Revive()
-    {
-        SetBoolAnimator(BatAnimatorData.Params.IsDie, false);
-    }
+        public void Revive()
+        {
+            SetBoolAnimator(BatAnimatorData.Params.IsDie, false);
+        }
 
-    public void Stand()
-    {
-        SetBoolAnimator(BatAnimatorData.Params.IsSitting, false);
-    }
+        public void Stand()
+        {
+            SetBoolAnimator(BatAnimatorData.Params.IsSitting, false);
+        }
 
-    public void Sit()
-    {
-        SetBoolAnimator(BatAnimatorData.Params.IsSitting, true);
+        public void Sit()
+        {
+            SetBoolAnimator(BatAnimatorData.Params.IsSitting, true);
+        }
     }
 }

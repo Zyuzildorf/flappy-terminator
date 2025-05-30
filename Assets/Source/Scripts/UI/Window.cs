@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public abstract class Window : MonoBehaviour
+namespace Source.Scripts.UI
 {
-    [SerializeField] private CanvasGroup _windowGroup;
-
-    protected CanvasGroup WindowGroup => _windowGroup;
-
-    public virtual void Open()
+    public abstract class Window : MonoBehaviour
     {
-        WindowGroup.alpha = 1f;
-        WindowGroup.interactable = true;
-        WindowGroup.blocksRaycasts = true;
-    }
+        [SerializeField] private CanvasGroup _windowGroup;
 
-    public virtual void Close()
-    {
-        WindowGroup.alpha = 0f;
-        WindowGroup.interactable = false;
-        WindowGroup.blocksRaycasts = false;
+        protected CanvasGroup WindowGroup => _windowGroup;
+
+        public virtual void Open()
+        {
+            WindowGroup.alpha = 1f;
+            WindowGroup.interactable = true;
+            WindowGroup.blocksRaycasts = true;
+        }
+
+        public virtual void Close()
+        {
+            WindowGroup.alpha = 0f;
+            WindowGroup.interactable = false;
+            WindowGroup.blocksRaycasts = false;
+        }
     }
 }

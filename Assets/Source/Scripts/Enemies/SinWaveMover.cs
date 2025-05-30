@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class SinWaveMover : MonoBehaviour
+namespace Source.Scripts.Enemies
 {
-    [SerializeField] private float _amplitude;
-    [SerializeField] private float _frequency;
-    [SerializeField] private bool _inverted;
-
-    private float _sinCenterY;
-
-    private void Start()
+    public class SinWaveMover : MonoBehaviour
     {
-        _sinCenterY = transform.position.y;
-    }
+        [SerializeField] private float _amplitude;
+        [SerializeField] private float _frequency;
+        [SerializeField] private bool _inverted;
 
-    public void MoveSinWave()
-    {
-        Vector2 pos = transform.position;
+        private float _sinCenterY;
 
-        float sin = Mathf.Sin(pos.x * _frequency) * _amplitude;
-
-        if(_inverted)
+        private void Start()
         {
-            sin *= -1;
+            _sinCenterY = transform.position.y;
         }
 
-        pos.y = _sinCenterY + sin;
+        public void MoveSinWave()
+        {
+            Vector2 pos = transform.position;
 
-        transform.position = pos;
+            float sin = Mathf.Sin(pos.x * _frequency) * _amplitude;
+
+            if(_inverted)
+            {
+                sin *= -1;
+            }
+
+            pos.y = _sinCenterY + sin;
+
+            transform.position = pos;
+        }
     }
 }

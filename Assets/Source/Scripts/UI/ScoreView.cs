@@ -1,56 +1,60 @@
+using Source.Scripts.Utilities;
 using TMPro;
 using UnityEngine;
 
-public class ScoreView : Window
+namespace Source.Scripts.UI
 {
-    [SerializeField] private ScoreCounter _scoreCounter;
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _bestScoreText;
-
-    private void OnEnable()
+    public class ScoreView : Window
     {
-        _scoreCounter.ScoreValueChanged += UpdateScoreText;
-    }
+        [SerializeField] private ScoreCounter _scoreCounter;
+        [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private TextMeshProUGUI _bestScoreText;
 
-    private void OnDisable()
-    {
-        _scoreCounter.ScoreValueChanged -= UpdateScoreText;
-    }
+        private void OnEnable()
+        {
+            _scoreCounter.ScoreValueChanged += UpdateScoreText;
+        }
 
-    private void Start()
-    {
-        UpdateScoreText();
-    }
+        private void OnDisable()
+        {
+            _scoreCounter.ScoreValueChanged -= UpdateScoreText;
+        }
 
-    public void ShowCurrentScore()
-    {
-        _scoreText.gameObject.SetActive(true);
-        UpdateScoreText();
-    }
+        private void Start()
+        {
+            UpdateScoreText();
+        }
 
-    public void HideCurrentScore()
-    {
-        _scoreText.gameObject.SetActive(false);
-    }
+        public void ShowCurrentScore()
+        {
+            _scoreText.gameObject.SetActive(true);
+            UpdateScoreText();
+        }
 
-    public void ShowBestScore()
-    {
-        _bestScoreText.gameObject.SetActive(true);
-        UpdateBestScoreText();
-    }
+        public void HideCurrentScore()
+        {
+            _scoreText.gameObject.SetActive(false);
+        }
 
-    public void HideBestScore()
-    {
-        _bestScoreText.gameObject.SetActive(false);
-    }
+        public void ShowBestScore()
+        {
+            _bestScoreText.gameObject.SetActive(true);
+            UpdateBestScoreText();
+        }
 
-    private void UpdateScoreText()
-    {
-        _scoreText.text = new string("Score: " + _scoreCounter.ScoreValue.ToString());
-    }
+        public void HideBestScore()
+        {
+            _bestScoreText.gameObject.SetActive(false);
+        }
 
-    private void UpdateBestScoreText()
-    {
-        _bestScoreText.text = new string("Best score: " + _scoreCounter.BestScoreValue);
+        private void UpdateScoreText()
+        {
+            _scoreText.text = new string("Score: " + _scoreCounter.ScoreValue.ToString());
+        }
+
+        private void UpdateBestScoreText()
+        {
+            _bestScoreText.text = new string("Best score: " + _scoreCounter.BestScoreValue);
+        }
     }
 }

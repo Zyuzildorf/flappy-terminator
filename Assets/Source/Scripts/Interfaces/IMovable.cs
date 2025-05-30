@@ -1,4 +1,7 @@
-﻿public interface IMovable
+﻿namespace Source.Scripts.Interfaces
 {
-    public void Move();
+    public interface IMovable
+    {
+        public void Move();
+    }
 }

@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class MoverRighToLeft : MonoBehaviour
+namespace Source.Scripts.Enemies
 {
-    [SerializeField] private float _speed;
-
-    public void MoveRightToLeft()
+    public class MoverRighToLeft : MonoBehaviour
     {
-        Vector2 position = transform.position;
+        [SerializeField] private float _speed;
 
-        position.x -= _speed * Time.deltaTime;
+        public void MoveRightToLeft()
+        {
+            Vector2 position = transform.position;
 
-        transform.position = position;
+            position.x -= _speed * Time.deltaTime;
+
+            transform.position = position;
+        }
     }
 }

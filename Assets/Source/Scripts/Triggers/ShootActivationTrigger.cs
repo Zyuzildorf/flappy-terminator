@@ -1,5 +1,9 @@
+using Source.Scripts.Interfaces;
 using UnityEngine;
 
-public class ShootActivationTrigger : MonoBehaviour,IInteractable
-{    
+namespace Source.Scripts.Triggers
+{
+    public class ShootActivationTrigger : MonoBehaviour,IInteractable
+    {    
+    }
 }

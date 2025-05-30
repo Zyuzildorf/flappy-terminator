@@ -1,45 +1,46 @@
-
 using UnityEngine;
 
-public class ProjectileSpawner : ObjectPool<Projectile>
+namespace Source.Scripts.Spawners
 {
-    [SerializeField] private Transform _firePoint;
-
-    private Vector2 _direction;
-
-    public void SpawnBullet()
+    public class ProjectileSpawner : ObjectPool<Projectile>
     {
-        Projectile bullet = GetObject();
+        [SerializeField] private Transform _firePoint;
 
-        bullet.PrefferToDestroyed += PutObject;
-
-        bullet.transform.position = _firePoint.position;        
-        bullet.gameObject.SetActive(true);
-        bullet.SetVelocity(GetDirection());
-
-        bullet.StartLifeTimeDecreasing();
-    }
-
-    private Vector2 GetDirection()
-    {
-        Vector2 leftRightDirection = Vector2.zero;
-        float distance = transform.position.x - _firePoint.position.x;
-
-        if (Mathf.Sign(distance) > 0)
+        public void SpawnBullet()
         {
-            leftRightDirection = Vector2.left;
+            Projectile bullet = GetObject();
+
+            bullet.PrefferToDestroyed += PutObject;
+
+            bullet.transform.position = _firePoint.position;
+            bullet.gameObject.SetActive(true);
+            bullet.SetVelocity(GetDirection());
+
+            bullet.StartLifeTimeDecreasing();
         }
-        else
+
+        private Vector2 GetDirection()
         {
-            leftRightDirection = Vector2.right;
+            Vector2 leftRightDirection;
+            float distance = transform.position.x - _firePoint.position.x;
+
+            if (Mathf.Sign(distance) > 0)
+            {
+                leftRightDirection = Vector2.left;
+            }
+            else
+            {
+                leftRightDirection = Vector2.right;
+            }
+
+            return (transform.rotation * leftRightDirection).normalized;
         }
-        return _direction = (transform.rotation * leftRightDirection).normalized;
-    }
 
-    protected override void PutObject(Projectile obj)
-    {
-        obj.PrefferToDestroyed -= PutObject;
+        protected override void PutObject(Projectile obj)
+        {
+            obj.PrefferToDestroyed -= PutObject;
 
-        base.PutObject(obj);
+            base.PutObject(obj);
+        }
     }
 }

@@ -1,64 +1,68 @@
 using System;
 using System.Collections;
+using Source.Scripts.Interfaces;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IInteractable
+namespace Source.Scripts.Spawners
 {
-    [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _lifeTime = 2;
-    [SerializeField] private bool _isEnemy = false;
-
-    private float _currentLifeTime;
-
-    public event Action<Projectile> PrefferToDestroyed;
-    public bool IsEnemy => _isEnemy;
-
-    private void Awake()
+    public class Projectile : MonoBehaviour, IInteractable
     {
-        _currentLifeTime = _lifeTime;
-    }
+        [SerializeField] private Rigidbody2D _rigidbody;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _lifeTime = 2;
+        [SerializeField] private bool _isEnemy = false;
 
-    private void OnValidate()
-    {
-        GetComponent<Collider2D>().isTrigger = true;
-    }
+        private float _currentLifeTime;
 
-    private void OnDisable()
-    {
-        PrefferToDestroyed?.Invoke(this);
-    }
+        public event Action<Projectile> PrefferToDestroyed;
+        public bool IsEnemy => _isEnemy;
 
-    public void SetVelocity(Vector2 direction)
-    {
-        _rigidbody.velocity = direction * _speed;
-    }
-
-    public void StartLifeTimeDecreasing()
-    {
-        StartCoroutine(DecreaseLifeTime());
-    }
-
-    public void CallEvent()
-    {
-        PrefferToDestroyed?.Invoke(this);
-    }
-
-    private IEnumerator DecreaseLifeTime()
-    {
-        while (_currentLifeTime >= 0)
+        private void Awake()
         {
-            _currentLifeTime -= Time.deltaTime;
-            yield return null;
+            _currentLifeTime = _lifeTime;
         }
 
-        Die();
-    }
+        private void OnValidate()
+        {
+            GetComponent<Collider2D>().isTrigger = true;
+        }
 
-    private void Die()
-    {
-        PrefferToDestroyed?.Invoke(this);
-        _currentLifeTime = _lifeTime;
-        _rigidbody.velocity = Vector2.zero;
+        private void OnDisable()
+        {
+            PrefferToDestroyed?.Invoke(this);
+        }
+
+        public void SetVelocity(Vector2 direction)
+        {
+            _rigidbody.velocity = direction * _speed;
+        }
+
+        public void StartLifeTimeDecreasing()
+        {
+            StartCoroutine(DecreaseLifeTime());
+        }
+
+        public void CallEvent()
+        {
+            PrefferToDestroyed?.Invoke(this);
+        }
+
+        private IEnumerator DecreaseLifeTime()
+        {
+            while (_currentLifeTime >= 0)
+            {
+                _currentLifeTime -= Time.deltaTime;
+                yield return null;
+            }
+
+            Die();
+        }
+
+        private void Die()
+        {
+            PrefferToDestroyed?.Invoke(this);
+            _currentLifeTime = _lifeTime;
+            _rigidbody.velocity = Vector2.zero;
+        }
     }
 }

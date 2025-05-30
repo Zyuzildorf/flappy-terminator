@@ -1,6 +1,9 @@
-﻿public interface IShootable
+﻿namespace Source.Scripts.Interfaces
 {
-    public bool CanShoot { get; set; }
+    public interface IShootable
+    {
+        public bool CanShoot { get; set; }
 
-    public void Shoot();
+        public void Shoot();
+    }
 }

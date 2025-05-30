@@ -1,6 +1,9 @@
 ﻿using System;
 
-public interface IScorable
+namespace Source.Scripts.Interfaces
 {
-    public event Action<int> GivingScore;
+    public interface IScorable
+    {
+        public event Action<int> GivingScore;
+    }
 }

@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 1406502038564524146}
   - component: {fileID: 5782429776795224864}
   m_Layer: 0
-  m_Name: EnemyType3
+  m_Name: EnemyWalker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

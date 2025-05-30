@@ -1132,7 +1132,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.684
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2164,7 +2164,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.684
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2846,7 +2846,7 @@ MonoBehaviour:
   - {fileID: -8269321627456614395, guid: dba608744671f574c83a127d50190f6a, type: 3}
   - {fileID: 7322100288579297522, guid: 98c45eed08b12c04c90736f54f71e58f, type: 3}
   - {fileID: 4233233242584441884, guid: 688d32b856b1e9c4a9b2414392f6cb5d, type: 3}
-  _spawnInterval: 10
+  _spawnInterval: 5
 --- !u!1 &1094235414
 GameObject:
   m_ObjectHideFlags: 0
@@ -3122,7 +3122,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.684
+  m_Value: 0.204
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

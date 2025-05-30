@@ -1,40 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+namespace Source.Scripts.Spawners
 {
-    [SerializeField] private Transform _container;
-    [SerializeField] private T _prefab;
-
-    protected Queue<T> Pool;
-
-    public IEnumerable<T> PooledObjects => Pool;
-
-    private void Awake()
+    public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
     {
-        Pool = new Queue<T>();
-    }
+        [SerializeField] private Transform _container;
+        [SerializeField] private T _prefab;
 
-    protected virtual T GetObject()
-    {
-        if (Pool.Count == 0)
+        private Queue<T> _pool;
+
+        public IEnumerable<T> PooledObjects => _pool;
+
+        private void Awake()
         {
-            var obj = Instantiate(_prefab, _container, true);
-
-            return obj;
+            _pool = new Queue<T>();
         }
 
-        return Pool.Dequeue();
-    }
+        protected virtual T GetObject()
+        {
+            if (_pool.Count == 0)
+            {
+                var obj = Instantiate(_prefab, _container, true);
 
-    protected virtual void PutObject(T obj)
-    {
-        Pool.Enqueue(obj);
-        obj.gameObject.SetActive(false);
-    }
+                return obj;
+            }
 
-    protected virtual void Reset()
-    {
-        Pool.Clear();
+            return _pool.Dequeue();
+        }
+
+        protected virtual void PutObject(T obj)
+        {
+            _pool.Enqueue(obj);
+            obj.gameObject.SetActive(false);
+        }
+
+        protected virtual void Reset()
+        {
+            _pool.Clear();
+        }
     }
 }

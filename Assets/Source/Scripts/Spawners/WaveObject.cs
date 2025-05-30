@@ -1,53 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Source.Scripts.Enemies;
+using Source.Scripts.Interfaces;
 using UnityEngine;
 
-public class WaveObject : MonoBehaviour
+namespace Source.Scripts.Spawners
 {
-    private List<Enemy> _enemies;
+    public class WaveObject : MonoBehaviour
+    {
+        private List<Enemy> _enemies;
 
-    public List<IScorable> ScorableEnemies => GetScorables();
-    public event Action<WaveObject> WaveDestroying;
+        public List<IScorable> ScorableEnemies => GetScorables();
+        public event Action<WaveObject> WaveDestroying;
     
-    private void Awake()
-    {
-        InitEnemiesArray();
-    }
-
-    private void InitEnemiesArray()
-    {
-        _enemies = GetComponentsInChildren<Enemy>().ToList();
-
-        foreach (Enemy enemy in _enemies)
+        private void Awake()
         {
-            enemy.Destroing += CheckEnemiesRemaining;
+            InitEnemiesList();
         }
-    }
 
-    private void CheckEnemiesRemaining(Enemy enemy)
-    {
-        _enemies.Remove(enemy);
-        
-        if (_enemies.Count <= 0)
+        private void InitEnemiesList()
         {
-            WaveDestroying?.Invoke(this);
-            Destroy(gameObject);
-        }
-    }
+            _enemies = GetComponentsInChildren<Enemy>().ToList();
 
-    private List<IScorable> GetScorables()
-    {
-        List<IScorable> scorables = new List<IScorable>();
-        
-        foreach (Enemy enemy in _enemies)
-        {
-            if (enemy is IScorable)
+            foreach (Enemy enemy in _enemies)
             {
-                scorables.Add(enemy);
+                enemy.Destroying += CheckEnemiesRemaining;
             }
         }
 
-        return scorables;
+        private void CheckEnemiesRemaining(Enemy enemy)
+        {
+            _enemies.Remove(enemy);
+        
+            if (_enemies.Count <= 0)
+            {
+                WaveDestroying?.Invoke(this);
+                Destroy(gameObject);
+            }
+        }
+
+        private List<IScorable> GetScorables()
+        {
+            List<IScorable> scorables = new List<IScorable>(_enemies);
+
+            return scorables;
+        }
     }
 }
