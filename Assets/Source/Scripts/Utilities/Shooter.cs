@@ -13,7 +13,8 @@ namespace Source.Scripts.Utilities
 
         private ProjectileSpawner _bulletSpawner;
         private WaitForSeconds _waitForSeconds;
-        private bool _isShootDelayOver; 
+        private bool _isShootDelayOver;
+        private bool _isShooting;
 
         public event Action Shooting;
 
@@ -24,9 +25,22 @@ namespace Source.Scripts.Utilities
             _isShootDelayOver = true;
         }
 
+        private void OnEnable()
+        {
+            _isShootDelayOver = true;
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(WaitForNextAttack());
+            _isShootDelayOver = false;
+        }
+
         public void StartShooting()
         {
-            InvokeRepeating(nameof(Shoot), 0f, _attackDelay);
+            _isShooting = true;
+            
+            StartCoroutine(ShootOverTime());
         }
 
         public void Shoot()
@@ -41,6 +55,11 @@ namespace Source.Scripts.Utilities
             Shooting?.Invoke();
         }
 
+        public void Reset()
+        {
+            _bulletSpawner.Reset();
+        }
+
         private IEnumerator WaitForNextAttack()
         {
             _isShootDelayOver = false;
@@ -48,15 +67,13 @@ namespace Source.Scripts.Utilities
             _isShootDelayOver = true;
         }
 
-        private void OnEnable()
+        private IEnumerator ShootOverTime()
         {
-            _isShootDelayOver = true;
-        }
-
-        private void OnDisable()
-        {
-            StopCoroutine(WaitForNextAttack());
-            _isShootDelayOver = false;
+            while (_isShooting)
+            {
+                Shoot();
+                yield return _waitForSeconds;
+            }
         }
     }
 }

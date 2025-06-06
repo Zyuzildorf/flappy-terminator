@@ -36,6 +36,7 @@ namespace Source.Scripts.Spawners
         
             foreach (WaveObject waveObject in _spawnedWaveObjects)
             {
+                waveObject.Reset();
                 Destroy(waveObject.gameObject);
             }
 

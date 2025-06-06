@@ -2,21 +2,24 @@ using UnityEngine;
 
 namespace Source.Scripts.Spawners
 {
-    public class ProjectileSpawner : ObjectPool<Projectile>
+    public class ProjectileSpawner : ObjectsPool<Projectile>
     {
         [SerializeField] private Transform _firePoint;
 
         public void SpawnBullet()
         {
-            Projectile bullet = GetObject();
+            GetObject();
+        }
 
-            bullet.PrefferToDestroyed += PutObject;
+        protected override void ActionOnGet(Projectile obj)
+        {
+            obj.PrefferToDestroyed += ReleaseObject;
+            obj.transform.position = _firePoint.position;
 
-            bullet.transform.position = _firePoint.position;
-            bullet.gameObject.SetActive(true);
-            bullet.SetVelocity(GetDirection());
+            base.ActionOnGet(obj);
 
-            bullet.StartLifeTimeDecreasing();
+            obj.SetVelocity(GetDirection());
+            obj.StartLifeTimeDecreasing();
         }
 
         private Vector2 GetDirection()
@@ -36,11 +39,11 @@ namespace Source.Scripts.Spawners
             return (transform.rotation * leftRightDirection).normalized;
         }
 
-        protected override void PutObject(Projectile obj)
+        protected override void ReleaseObject(Projectile obj)
         {
-            obj.PrefferToDestroyed -= PutObject;
+            obj.PrefferToDestroyed -= ReleaseObject;
 
-            base.PutObject(obj);
+            base.ReleaseObject(obj);
         }
     }
 }

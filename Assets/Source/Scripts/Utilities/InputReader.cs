@@ -1,40 +1,58 @@
 using UnityEngine;
+using System;
 
 namespace Source.Scripts.Utilities
 {
     public class InputReader : MonoBehaviour
     {
-        public bool IsKeyFPressed { get; private set; }
-        public bool IsKeyKPressed { get; private set; }
-        public bool IsSpaceBarPressed { get; private set; }
-        public bool IsEscapeKeyPressed { get; private set; }
+        private const KeyCode KeyF = KeyCode.F;
+        private const KeyCode KeyK = KeyCode.K;
+        private const KeyCode KeyEscape = KeyCode.Escape;
+        private const KeyCode KeySpaceBar = KeyCode.Space;
+        
+        public event Action KeyFPressed;
+        public event Action KeyKPressed;
+        public event Action SpaceBarPressed;
+        public event Action KeyEscapePressed;
 
         private void Update()
         {
-            UpdateKeyFInput();
-            UpdateKeyKInput();
-            UpdateSpaceBarInput();
-            UpdateEscapeKeyInput();
+            CheckKeyFInput();
+            CheckKeyKInput();
+            CheckSpaceBarInput();
+            CheckKeyEscapeInput();
         }
 
-        private void UpdateKeyFInput()
+        private void CheckKeyFInput()
         {
-            IsKeyFPressed = Input.GetKeyDown(KeyCode.F);
+            if (Input.GetKeyDown(KeyF))
+            {
+                KeyFPressed?.Invoke();
+            }
         }
-
-        private void UpdateKeyKInput()
+        
+        private void CheckKeyKInput()
         {
-            IsKeyKPressed = Input.GetKeyDown(KeyCode.K);
+            if (Input.GetKeyDown(KeyK))
+            {
+                KeyKPressed?.Invoke();
+            }
         }
-
-        private void UpdateSpaceBarInput()
+        
+        private void CheckKeyEscapeInput()
         {
-            IsSpaceBarPressed = Input.GetKeyUp(KeyCode.Space);
+            if (Input.GetKeyDown(KeyEscape))
+            {
+                KeyEscapePressed?.Invoke();
+            }
         }
-
-        private void UpdateEscapeKeyInput()
+        
+        private void CheckSpaceBarInput()
         {
-            IsEscapeKeyPressed = Input.GetKeyDown(KeyCode.Escape);
+            if (Input.GetKeyDown(KeySpaceBar))
+            {
+                SpaceBarPressed?.Invoke();
+            }
         }
     }
 }

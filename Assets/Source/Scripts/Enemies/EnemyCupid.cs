@@ -17,12 +17,7 @@ namespace Source.Scripts.Enemies
         private bool _canShoot;
         private bool _isDelayOver;
 
-        public bool CanShoot
-        {
-            get => _canShoot;
-            set => _canShoot = value;
-        }
-
+        
         protected override void Awake()
         {
             base.Awake();
@@ -32,6 +27,11 @@ namespace Source.Scripts.Enemies
             _shooter = GetComponent<Shooter>();
             _canShoot = false;
             _isDelayOver = false;
+        }
+
+        public void Reset()
+        {
+            _shooter.Reset();
         }
 
         private void Update()
@@ -55,6 +55,7 @@ namespace Source.Scripts.Enemies
             base.OnDisable();
             _canShoot = false;
         }
+
 
         public void Shoot()
         {

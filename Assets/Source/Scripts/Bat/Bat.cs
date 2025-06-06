@@ -15,11 +15,11 @@ namespace Source.Scripts.Bat
         [SerializeField] private InputReader _inputReader;
 
         private BatMover _mover;
-        private Shooter _attacker;
+        private Shooter _shooter;
         private CollisionHandler _collisionHandler;
         private BatAnimator _animator;
         private bool _isActive;
-    
+
         public event Action GameOver;
 
         private void OnValidate()
@@ -30,7 +30,7 @@ namespace Source.Scripts.Bat
         private void Awake()
         {
             _mover = GetComponent<BatMover>();
-            _attacker = GetComponent<Shooter>();
+            _shooter = GetComponent<Shooter>();
             _collisionHandler = GetComponent<CollisionHandler>();
             _animator = GetComponent<BatAnimator>();
         }
@@ -38,33 +38,24 @@ namespace Source.Scripts.Bat
         private void OnEnable()
         {
             _collisionHandler.CollisionDetected += ProcessCollision;
-            _attacker.Shooting += _animator.Shoot;
+            _shooter.Shooting += _animator.Shoot;
             _mover.Swinging += _animator.Swing;
+            _inputReader.KeyFPressed += TryMove;
+            _inputReader.KeyKPressed += TryShoot;
         }
 
         private void OnDisable()
         {
             _collisionHandler.CollisionDetected -= ProcessCollision;
-            _attacker.Shooting -= _animator.Shoot;
+            _shooter.Shooting -= _animator.Shoot;
             _mover.Swinging -= _animator.Swing;
+            _inputReader.KeyKPressed -= TryShoot;
+            _inputReader.KeyFPressed -= TryMove;
         }
 
         private void Update()
         {
-            if (_isActive)
-            {
-                if (_inputReader.IsKeyFPressed)
-                {
-                    _mover.Move();
-                }
-
-                if (_inputReader.IsKeyKPressed)
-                {
-                    _attacker.Shoot();
-                }
-
-                _mover.Fall();
-            }
+            _mover.Fall();
         }
 
         public void Reset()
@@ -73,6 +64,22 @@ namespace Source.Scripts.Bat
             _animator.Revive();
             _animator.Stand();
             _isActive = true;
+        }
+
+        private void TryMove()
+        {
+            if (_isActive)
+            {
+                _mover.Move();
+            }
+        }
+
+        private void TryShoot()
+        {
+            if (_isActive)
+            {
+                _shooter.Shoot();
+            }
         }
 
         private void ProcessCollision(IInteractable interactable)

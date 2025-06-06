@@ -12,24 +12,29 @@ namespace Source.Scripts.Spawners
         [SerializeField] private float _lifeTime = 2;
         [SerializeField] private bool _isEnemy = false;
 
-        private float _currentLifeTime;
+        private WaitForSeconds _waitForSeconds;
 
         public event Action<Projectile> PrefferToDestroyed;
         public bool IsEnemy => _isEnemy;
-
-        private void Awake()
-        {
-            _currentLifeTime = _lifeTime;
-        }
 
         private void OnValidate()
         {
             GetComponent<Collider2D>().isTrigger = true;
         }
 
+        private void Awake()
+        {
+            _waitForSeconds = new WaitForSeconds(_lifeTime);
+        }
+
         private void OnDisable()
         {
             PrefferToDestroyed?.Invoke(this);
+        }
+
+        private void OnDestroy()
+        {
+            PrefferToDestroyed = null;
         }
 
         public void SetVelocity(Vector2 direction)
@@ -49,19 +54,14 @@ namespace Source.Scripts.Spawners
 
         private IEnumerator DecreaseLifeTime()
         {
-            while (_currentLifeTime >= 0)
-            {
-                _currentLifeTime -= Time.deltaTime;
-                yield return null;
-            }
-
+            yield return _waitForSeconds;
+            
             Die();
         }
 
         private void Die()
         {
             PrefferToDestroyed?.Invoke(this);
-            _currentLifeTime = _lifeTime;
             _rigidbody.velocity = Vector2.zero;
         }
     }

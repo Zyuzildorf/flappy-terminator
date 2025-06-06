@@ -25,12 +25,16 @@ namespace Source.Scripts.Utilities
         {
             _bat.GameOver += OnGameOver;
             _spawner.WaveSpawned += _scoreCounter.AddScorable;
+            _inputReader.SpaceBarPressed += ProcessInput;
+            _inputReader.KeyEscapePressed += TryOpenSettingsMenu;
         }
 
         private void OnDisable()
         {
             _bat.GameOver -= OnGameOver;
             _spawner.WaveSpawned -= _scoreCounter.AddScorable;
+            _inputReader.SpaceBarPressed -= ProcessInput;
+            _inputReader.KeyEscapePressed -= TryOpenSettingsMenu;
         }
 
         private void Start()
@@ -39,20 +43,7 @@ namespace Source.Scripts.Utilities
             _isStartScreenOpen = true;
             PauseGame();
         }
-
-        private void Update()
-        {
-            if (_inputReader.IsSpaceBarPressed)
-            {
-                ProcessInput();
-            }
-
-            if (_inputReader.IsEscapeKeyPressed)
-            {
-                TryOpenSettingsMenu();
-            }
-        }
-
+        
         private void TryOpenSettingsMenu()
         {
             if (_isGameOverScreenOpen) return;
@@ -127,7 +118,7 @@ namespace Source.Scripts.Utilities
             _bat.Reset();
             _spawner.Reset();
         }
-
+        
         private void PauseGame()
         {
             Time.timeScale = 0;

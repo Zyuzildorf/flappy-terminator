@@ -49,12 +49,12 @@ namespace Source.Scripts.UI
 
         private void UpdateScoreText()
         {
-            _scoreText.text = new string("Score: " + _scoreCounter.ScoreValue.ToString());
+            _scoreText.text = new string("Score: " + _scoreCounter.Value.ToString());
         }
 
         private void UpdateBestScoreText()
         {
-            _bestScoreText.text = new string("Best score: " + _scoreCounter.BestScoreValue);
+            _bestScoreText.text = new string("Best score: " + _scoreCounter.BestValue);
         }
     }
 }

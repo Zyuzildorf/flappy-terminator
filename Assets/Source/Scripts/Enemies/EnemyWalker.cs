@@ -11,12 +11,6 @@ namespace Source.Scripts.Enemies
         private MoverRighToLeft _mover;
         private Shooter _shooter;
         private bool _canShoot;
-
-        public bool CanShoot
-        {
-            get => _canShoot;
-            set => _canShoot = value;
-        }
     
         protected override void Awake()
         {
@@ -52,6 +46,11 @@ namespace Source.Scripts.Enemies
             _shooter.StartShooting();
         }
 
+        public void Reset()
+        {
+            _shooter.Reset();
+        }
+        
         protected override void ProcessCollision(IInteractable interactable)
         {
             base.ProcessCollision(interactable);

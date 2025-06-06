@@ -9,16 +9,16 @@ namespace Source.Scripts.Utilities
     {
         private List<IScorable> _scorables;
 
-        public float ScoreValue { get; private set; }
-        public float BestScoreValue { get; private set; }
+        public float Value { get; private set; }
+        public float BestValue { get; private set; }
 
         public event Action ScoreValueChanged;
 
         private void Awake()
         {
             _scorables = new List<IScorable>();
-            ScoreValue = 0;
-            BestScoreValue = 0;
+            Value = 0;
+            BestValue = 0;
         }
 
         public void AddScorable(List<IScorable> scorables)
@@ -35,17 +35,17 @@ namespace Source.Scripts.Utilities
             _scorables.ForEach(scorable => scorable.GivingScore -= Add);
             _scorables.Clear();
         
-            if (ScoreValue > BestScoreValue)
+            if (Value > BestValue)
             {
-                BestScoreValue = ScoreValue;
+                BestValue = Value;
             }
 
-            ScoreValue = 0;
+            Value = 0;
         }
     
         private void Add(int addScore)
         {
-            ScoreValue += addScore;
+            Value += addScore;
             ScoreValueChanged?.Invoke();
         }
     }

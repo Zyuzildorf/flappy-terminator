@@ -1,43 +1,65 @@
+using Source.Scripts.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Source.Scripts.Spawners
 {
-    public abstract class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+    public class ObjectsPool<T> : MonoBehaviour where T : MonoBehaviour
     {
-        [SerializeField] private Transform _container;
         [SerializeField] private T _prefab;
+        [SerializeField] private int _poolCapacity = 10;
+        [SerializeField] private int _poolMaxSize = 15;
 
-        private Queue<T> _pool;
-
-        public IEnumerable<T> PooledObjects => _pool;
+        private Transform _container;
+        private ObjectPool<T> _pool;
+        private List<T> _allCreatedObjects = new List<T>();
 
         private void Awake()
         {
-            _pool = new Queue<T>();
+            _container = BulletContainer.Container;
+
+            _pool = new ObjectPool<T>(
+                createFunc: () => CreateObject(),
+                actionOnGet: (obj) => ActionOnGet(obj),
+                actionOnRelease: (obj) => obj.gameObject.SetActive(false),
+                actionOnDestroy: (obj) => Destroy(obj),
+                collectionCheck: true,
+                defaultCapacity: _poolCapacity,
+                maxSize: _poolMaxSize);
         }
 
-        protected virtual T GetObject()
+        public void Reset()
         {
-            if (_pool.Count == 0)
+            foreach (T obj in _allCreatedObjects)
             {
-                var obj = Instantiate(_prefab, _container, true);
-
-                return obj;
+                if (obj.isActiveAndEnabled)
+                {
+                    _pool.Release(obj);
+                }
             }
-
-            return _pool.Dequeue();
         }
 
-        protected virtual void PutObject(T obj)
+        protected virtual T CreateObject()
         {
-            _pool.Enqueue(obj);
-            obj.gameObject.SetActive(false);
+            T obj = Instantiate(_prefab, _container, true);
+            _allCreatedObjects.Add(obj);
+            return obj;
         }
 
-        protected virtual void Reset()
+        protected virtual void GetObject()
         {
-            _pool.Clear();
+            _pool.Get();
+        }
+
+        protected virtual void ReleaseObject(T obj)
+        {
+            _pool.Release(obj);
+        }
+
+        protected virtual void ActionOnGet(T obj)
+        {
+            obj.gameObject.SetActive(true);
         }
     }
 }

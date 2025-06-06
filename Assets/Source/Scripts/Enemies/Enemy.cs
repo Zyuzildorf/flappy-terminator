@@ -24,7 +24,7 @@ namespace Source.Scripts.Enemies
             _collisionHandler = GetComponent<CollisionHandler>();
             _isActive = false;
         }
-
+        
         protected virtual void OnEnable()
         {
             _collisionHandler.CollisionDetected += ProcessCollision;
