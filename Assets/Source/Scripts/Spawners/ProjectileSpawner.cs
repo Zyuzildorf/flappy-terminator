@@ -11,12 +11,12 @@ namespace Source.Scripts.Spawners
             GetObject();
         }
 
-        protected override void ActionOnGet(Projectile obj)
+        protected override void OnGet(Projectile obj)
         {
             obj.PrefferToDestroyed += ReleaseObject;
             obj.transform.position = _firePoint.position;
 
-            base.ActionOnGet(obj);
+            base.OnGet(obj);
 
             obj.SetVelocity(GetDirection());
             obj.StartLifeTimeDecreasing();

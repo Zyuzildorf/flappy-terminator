@@ -39,25 +39,30 @@ namespace Source.Scripts.Utilities
         public void StartShooting()
         {
             _isShooting = true;
-            
+
             StartCoroutine(ShootOverTime());
         }
 
-        public void Shoot()
+        public void TryShoot()
         {
             if (_isShootDelayOver == false)
                 return;
 
-            _bulletSpawner.SpawnBullet();
-            _shootSound.Play();
+            Shoot();
             StartCoroutine(WaitForNextAttack());
-
-            Shooting?.Invoke();
         }
 
         public void Reset()
         {
             _bulletSpawner.Reset();
+        }
+        
+        private void Shoot()
+        {
+            _bulletSpawner.SpawnBullet();
+            _shootSound.Play();
+
+            Shooting?.Invoke();
         }
 
         private IEnumerator WaitForNextAttack()

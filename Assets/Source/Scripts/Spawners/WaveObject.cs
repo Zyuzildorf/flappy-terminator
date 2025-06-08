@@ -24,11 +24,11 @@ namespace Source.Scripts.Spawners
         {
             foreach (Enemy enemy in _enemies)
             {
-                if (enemy.TryGetComponent(out EnemyCupid cupid))
+                if (enemy is EnemyCupid cupid)
                 {
                     cupid.Reset();
                 }
-                else if (enemy.TryGetComponent(out EnemyWalker walker))
+                else if (enemy is EnemyWalker walker)
                 {
                     walker.Reset();
                 }

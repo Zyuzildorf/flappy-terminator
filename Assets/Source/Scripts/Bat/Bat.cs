@@ -40,8 +40,8 @@ namespace Source.Scripts.Bat
             _collisionHandler.CollisionDetected += ProcessCollision;
             _shooter.Shooting += _animator.Shoot;
             _mover.Swinging += _animator.Swing;
-            _inputReader.KeyFPressed += TryMove;
-            _inputReader.KeyKPressed += TryShoot;
+            _inputReader.FlyKeyPressed += TryMove;
+            _inputReader.ShootKeyPressed += TryShoot;
         }
 
         private void OnDisable()
@@ -49,8 +49,8 @@ namespace Source.Scripts.Bat
             _collisionHandler.CollisionDetected -= ProcessCollision;
             _shooter.Shooting -= _animator.Shoot;
             _mover.Swinging -= _animator.Swing;
-            _inputReader.KeyKPressed -= TryShoot;
-            _inputReader.KeyFPressed -= TryMove;
+            _inputReader.ShootKeyPressed -= TryShoot;
+            _inputReader.FlyKeyPressed -= TryMove;
         }
 
         private void Update()
@@ -78,7 +78,7 @@ namespace Source.Scripts.Bat
         {
             if (_isActive)
             {
-                _shooter.Shoot();
+                _shooter.TryShoot();;
             }
         }
 

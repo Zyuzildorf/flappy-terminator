@@ -21,9 +21,9 @@ namespace Source.Scripts.Spawners
 
             _pool = new ObjectPool<T>(
                 createFunc: () => CreateObject(),
-                actionOnGet: (obj) => ActionOnGet(obj),
+                actionOnGet: (obj) => OnGet(obj),
                 actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-                actionOnDestroy: (obj) => Destroy(obj),
+                actionOnDestroy: (obj) => Destroy(obj.gameObject),
                 collectionCheck: true,
                 defaultCapacity: _poolCapacity,
                 maxSize: _poolMaxSize);
@@ -57,7 +57,7 @@ namespace Source.Scripts.Spawners
             _pool.Release(obj);
         }
 
-        protected virtual void ActionOnGet(T obj)
+        protected virtual void OnGet(T obj)
         {
             obj.gameObject.SetActive(true);
         }

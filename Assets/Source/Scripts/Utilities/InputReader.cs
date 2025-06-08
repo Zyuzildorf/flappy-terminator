@@ -5,53 +5,53 @@ namespace Source.Scripts.Utilities
 {
     public class InputReader : MonoBehaviour
     {
-        private const KeyCode KeyF = KeyCode.F;
-        private const KeyCode KeyK = KeyCode.K;
-        private const KeyCode KeyEscape = KeyCode.Escape;
-        private const KeyCode KeySpaceBar = KeyCode.Space;
+        private const KeyCode FlyKey = KeyCode.F;
+        private const KeyCode ShootKey = KeyCode.K;
+        private const KeyCode MenuKey = KeyCode.Escape;
+        private const KeyCode ContinueKey = KeyCode.Space;
         
-        public event Action KeyFPressed;
-        public event Action KeyKPressed;
-        public event Action SpaceBarPressed;
-        public event Action KeyEscapePressed;
+        public event Action FlyKeyPressed;
+        public event Action ShootKeyPressed;
+        public event Action ContinueKeyPressed;
+        public event Action MenuKeyPressed;
 
         private void Update()
         {
-            CheckKeyFInput();
-            CheckKeyKInput();
-            CheckSpaceBarInput();
-            CheckKeyEscapeInput();
+            CheckFlyKeyInput();
+            CheckShootKeyInput();
+            CheckContinueKeyInput();
+            CheckMenuKeyInput();
         }
 
-        private void CheckKeyFInput()
+        private void CheckFlyKeyInput()
         {
-            if (Input.GetKeyDown(KeyF))
+            if (Input.GetKeyDown(FlyKey))
             {
-                KeyFPressed?.Invoke();
+                FlyKeyPressed?.Invoke();
             }
         }
         
-        private void CheckKeyKInput()
+        private void CheckShootKeyInput()
         {
-            if (Input.GetKeyDown(KeyK))
+            if (Input.GetKeyDown(ShootKey))
             {
-                KeyKPressed?.Invoke();
+                ShootKeyPressed?.Invoke();
             }
         }
         
-        private void CheckKeyEscapeInput()
+        private void CheckMenuKeyInput()
         {
-            if (Input.GetKeyDown(KeyEscape))
+            if (Input.GetKeyDown(MenuKey))
             {
-                KeyEscapePressed?.Invoke();
+                MenuKeyPressed?.Invoke();
             }
         }
         
-        private void CheckSpaceBarInput()
+        private void CheckContinueKeyInput()
         {
-            if (Input.GetKeyDown(KeySpaceBar))
+            if (Input.GetKeyDown(ContinueKey))
             {
-                SpaceBarPressed?.Invoke();
+                ContinueKeyPressed?.Invoke();
             }
         }
     }

@@ -26,6 +26,8 @@ namespace Source.Scripts.Utilities
             _gameLogic.PreferToStart -= OnGameStart;
             _gameLogic.PreferToRestart -= OnGameRestart;
             _gameLogic.GameOver -= ShowGameOverScreen;
+            _gameLogic.PreferToCloseSettingsMenu -= _settingsMenuScreen.Close;
+            _gameLogic.PreferToOpenSettingsMenu -= _settingsMenuScreen.Open;
         }
 
         private void Awake()

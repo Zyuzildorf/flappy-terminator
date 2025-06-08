@@ -25,16 +25,16 @@ namespace Source.Scripts.Utilities
         {
             _bat.GameOver += OnGameOver;
             _spawner.WaveSpawned += _scoreCounter.AddScorable;
-            _inputReader.SpaceBarPressed += ProcessInput;
-            _inputReader.KeyEscapePressed += TryOpenSettingsMenu;
+            _inputReader.ContinueKeyPressed += ProcessInput;
+            _inputReader.MenuKeyPressed += TryOpenSettingsMenu;
         }
 
         private void OnDisable()
         {
             _bat.GameOver -= OnGameOver;
             _spawner.WaveSpawned -= _scoreCounter.AddScorable;
-            _inputReader.SpaceBarPressed -= ProcessInput;
-            _inputReader.KeyEscapePressed -= TryOpenSettingsMenu;
+            _inputReader.ContinueKeyPressed -= ProcessInput;
+            _inputReader.MenuKeyPressed -= TryOpenSettingsMenu;
         }
 
         private void Start()
