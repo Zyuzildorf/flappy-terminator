@@ -43,7 +43,7 @@ namespace Source.Scripts.Enemies
 
         public void Shoot()
         {
-            _shooter.StartShooting();
+            _shooter.TryShoot();
         }
 
         public void Reset()

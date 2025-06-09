@@ -1,4 +1,3 @@
-using Source.Scripts.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -11,13 +10,11 @@ namespace Source.Scripts.Spawners
         [SerializeField] private int _poolCapacity = 10;
         [SerializeField] private int _poolMaxSize = 15;
 
-        private Transform _container;
         private ObjectPool<T> _pool;
         private List<T> _allCreatedObjects = new List<T>();
 
         private void Awake()
         {
-            _container = BulletContainer.Container;
 
             _pool = new ObjectPool<T>(
                 createFunc: () => CreateObject(),
@@ -42,7 +39,7 @@ namespace Source.Scripts.Spawners
 
         protected virtual T CreateObject()
         {
-            T obj = Instantiate(_prefab, _container, true);
+            T obj = Instantiate(_prefab);
             _allCreatedObjects.Add(obj);
             return obj;
         }

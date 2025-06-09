@@ -191,6 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 5125984666063679385, guid: 7d643f174d6d84b43a52b5327c412279, type: 3}
+  _poolCapacity: 10
+  _poolMaxSize: 15
   _firePoint: {fileID: 8756151974149872729}
 --- !u!114 &2703034776796207992
 MonoBehaviour:
@@ -384,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 5264403796414885118}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.403, y: 0, z: 0}
+  m_LocalPosition: {x: -0.403, y: -0.054, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

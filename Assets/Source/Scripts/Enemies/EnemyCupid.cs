@@ -56,10 +56,9 @@ namespace Source.Scripts.Enemies
             _canShoot = false;
         }
 
-
         public void Shoot()
         {
-            _shooter.StartShooting();
+            _shooter.TryShoot();
         }
 
         public void Move()

@@ -78,7 +78,7 @@ namespace Source.Scripts.Bat
         {
             if (_isActive)
             {
-                _shooter.TryShoot();;
+                _shooter.TryShoot();
             }
         }
 

@@ -36,13 +36,6 @@ namespace Source.Scripts.Utilities
             _isShootDelayOver = false;
         }
 
-        public void StartShooting()
-        {
-            _isShooting = true;
-
-            StartCoroutine(ShootOverTime());
-        }
-
         public void TryShoot()
         {
             if (_isShootDelayOver == false)
@@ -70,15 +63,6 @@ namespace Source.Scripts.Utilities
             _isShootDelayOver = false;
             yield return _waitForSeconds;
             _isShootDelayOver = true;
-        }
-
-        private IEnumerator ShootOverTime()
-        {
-            while (_isShooting)
-            {
-                Shoot();
-                yield return _waitForSeconds;
-            }
         }
     }
 }
